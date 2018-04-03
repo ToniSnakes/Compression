@@ -35,8 +35,23 @@ queue <Node *> q;
 
 void build (Node *root)
 {
+	/*if (loc < k) {
+		Node *nn = new Node;
+		nn->type = 1;
+		++loc;
+		node->left = nn;
+	}
+	if (loc < k && node.type) {
+		Node *nn = new Node;
+		nn->type = 0;
+		++loc;
+		node->right = nn;
+	}
+	if (*/
+	//cout << "type: " << root->type << endl;
 	q.push(root);
 	root->c = cars[0].c;
+	cout << "type: " << q.front()->type << endl;
 	loc = 1;
 	while (!q.empty()) {
 		Node *node = q.front();
@@ -84,21 +99,26 @@ void process ()
 {
 	char output = 0;
 	for (int i = 0; i < 8; ++i) {
+		//cout << working[i];
 		output = ((output << 1) | working[i]);	
 	}
 	fout << output;
+	//cout << endl;
 }
 
 void processFinal ()
 {
 	char output = 0;
 	for (int i = 0; i < active; ++i) {
+		//cout << working[i];
 		output = ((output << 1) | working[i]);	
 	}
 	for (int i = active; i < 8; ++i) {
+		//cout << 1;
 		output = ((output << 1) | 1);
 	}
 	fout << output;
+	//cout << endl;
 }
 
 void refresh ()
@@ -111,6 +131,9 @@ void refresh ()
 
 void add (int poz)
 {
+	/*for (int i = 0; i <= poz; ++i) {
+		cout << current[i];	
+	}*/
 	for (int i = 0; i <= poz; ++i) {
 		working[active] = current[i];
 		++active;
@@ -157,11 +180,13 @@ int main (int argv, char **argc)
 		return 0;
 	}
 	else {
+		//cout << argc[0] << " " << argc[1];	
 		ifstream fin (argc[1]);
-		cout << argc[1] << endl;
+		cout << argc[1] << endl << endl;
 		while (!fin.eof()) {
 			fin.read(buff, 50);
 			for (int i = 0; i < fin.gcount(); ++i) {
+				cout << buff[i];
 				++frequency[buff[i]];
 			}
 		}
@@ -183,11 +208,24 @@ int main (int argv, char **argc)
 		loc = 1;
 		build(root);
 		for (int i = 0; i < k; ++i) {
+			cout << "'" << cars[i].c << "' " << cars[i].freq << " " << findType(root, cars[i].c) << endl;
 			fout << cars[i].c;
 		}
+		for (int i = 0; i < k; ++i) {
+			cout << findType(root, cars[i].c);	
+		}
+		cout << endl;
+		/*for (int i = 0; i < k; ++i) {
+			find(root, cars[i].c, 0);
+			//cout << endl;
+		}*/
+		cout << endl;
 		while (!fin.eof()) {
 			fin.read(buff, 50);
 			for (int i = 0; i < fin.gcount(); ++i) {
+				//cout << "'" <<  buff[i] << "' " << frequency[buff[i]] << endl;	
+				//cout << "'" <<  buff[i] << "' " << findType(root, buff[i]) << endl;	
+				//add(buff[i]);
 				find(root, buff[i], 0);
 			}
 		}

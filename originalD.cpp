@@ -73,6 +73,10 @@ void process (Node *root, int poz)
 {
 	loc = 1;
 	Node *node = root;
+	/*for (int i = 0; i <= poz+5; ++i) {
+		cout << working[i];	
+	}
+	cout << endl;*/
 	while (loc <= poz) {
 		if (node->left && node->left->type == working[loc]) {
 			node = node->left;
@@ -83,6 +87,7 @@ void process (Node *root, int poz)
 		}
 		++loc;
 	}
+	//cout << "'" << node->c << "'" << endl;
 	fout << node->c;
 }
 
@@ -103,18 +108,26 @@ void add (Node *root, char c)
 	}
 	for (int i = 0; i < 8; ++i) {
 		working[active] = current[i];
+		/*for (int j = 0; j <= active; ++j) {
+			cout << working[j];
+		}
+		cout << endl;*/
 		if (active >= 2 && working[active - 1] == 0 && working[active - 2] == 0) {
 			if (working[active] == 0) {
 				process(root, active-2);
 				refresh(0);
+				//active = -1;
 			}
 			else {
 				process(root, active-3);
 				refresh(1);
+				//active = 0;
 			}
 		}
 		++active;
+		//cout << current[i];
 	}
+	//cout << endl;
 }
 
 int main (int argv, char **argc)
@@ -130,6 +143,13 @@ int main (int argv, char **argc)
 		fin.read(cars, k);
 		Node *root = new Node;
 		build(root);
+		for (int i = 0; i < k; ++i) {
+			cout << "'" << cars[i] << "' " << find(root, cars[i], 0) << endl;	
+		}
+		for (int i = 0; i < k; ++i) {
+			cout << find(root, cars[i], 0);	
+		}
+		cout << endl;
 		active = 0;
 		while (!fin.eof()) {
 			fin.read(buff, 50);
@@ -137,7 +157,12 @@ int main (int argv, char **argc)
 				add(root, buff[i]);	
 			}
 		}
+		//char eof = EOF;
 		fout << '\n';
+		/*if (active) {
+			process(active-2);
+			refresh(0);
+		}*/
 	}
 	return 0;
 }
